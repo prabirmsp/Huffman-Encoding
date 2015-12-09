@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +23,10 @@ public class GrinDecoder {
         List<Integer> characters = huffmanTree.decode(input);
         input.close();
 
-        BitOutputStream output = new BitOutputStream(outfile);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
         for (Integer c : characters)
-            output.writeBits(c, 8); // write the lower 8 bits (as chars)
+            writer.write(c);
 
+        writer.close();
     }
 }

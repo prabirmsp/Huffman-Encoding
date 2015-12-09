@@ -32,7 +32,7 @@ public class HuffmanTree {
     public HuffmanTree(Map<Integer, Integer> m) {
         Set<Map.Entry<Integer, Integer>> entries = m.entrySet();
         size = m.size();
-        PriorityQueue<Node> pq = new PriorityQueue<>(size);
+        PriorityQueue<Node> pq = new PriorityQueue<>(size + 1);
         for (Map.Entry<Integer, Integer> e : entries)
             pq.add(new Node(e.getKey(), e.getValue()));
         pq.add(new Node(256, 1)); // add EOF character
@@ -58,7 +58,7 @@ public class HuffmanTree {
     public List<Integer> decode(BitInputStream stream) {
         ArrayList<Integer> list = new ArrayList<>();
         Integer c = -1;
-        while (c != 256) { // until we see the EOF character
+        while (c > 0) {
             Node cur = root;
             while (cur.c == null) {
                 int nextBit = stream.readBit();
@@ -70,7 +70,7 @@ public class HuffmanTree {
                     throw new IllegalArgumentException("BitInputStream returned value that is not 1 or 0.");
             }
             c = cur.c;
-            if (c != 256) // do not add EOF character
+            if (c > 0)
                 list.add(c);
         }
         return list;

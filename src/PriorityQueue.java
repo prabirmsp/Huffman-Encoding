@@ -24,7 +24,7 @@ public class PriorityQueue<T extends Comparable<? super T>> {
     }
 
     public void add(T value) {
-        if (size == arr.length) {
+        if (size >= arr.length) {
             arr = Arrays.copyOf(arr, arr.length * 2);
         }
         arr[size] = value;
