@@ -101,6 +101,9 @@ public class HuffmanTree {
         }
     }
 
+    /**
+     * prints the huffman tree
+     */
     void print () {
         root.print();
     }

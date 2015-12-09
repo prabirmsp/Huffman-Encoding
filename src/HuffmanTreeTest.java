@@ -18,6 +18,7 @@ public class HuffmanTreeTest {
         m.put((int) 'z', 1);
         //m.put(256, 1); // eof character
         HuffmanTree h = new HuffmanTree(m);
+        h.print();
     }
 
 }
