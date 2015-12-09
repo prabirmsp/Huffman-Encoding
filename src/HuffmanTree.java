@@ -24,9 +24,22 @@ public class HuffmanTree {
         public int compareTo(Node o) {
             return freq - o.freq;
         }
+
+        public void print() {
+            print("", true);
+        }
+
+        private void print(String prefix, boolean isTail) {
+            System.out.println(prefix + (isTail ? "└── " : "├── ") + (c == null ? freq : "'" + (char) c.intValue() +  "' / " + freq));
+            if (left != null)
+                left.print(prefix + (isTail ? "    " : "│   "), right == null);
+            if (right != null)
+                right.print(prefix + (isTail ? "    " : "│   "), true);
+        }
     }
 
-    Node root;
+
+    private Node root;
     private int size;
 
     public HuffmanTree(Map<Integer, Integer> m) {
@@ -41,8 +54,6 @@ public class HuffmanTree {
             Node n1 = pq.poll();
             Node n2 = pq.poll();
             pq.add(new Node(n1.freq + n2.freq, n1, n2));
-            System.out.println("Changing: " + (n1.c == null ? "X" : ((char) n1.c.intValue())) + " | " +
-                    (n2.c == null ? "X" : ((char) n2.c.intValue())));
         }
 
         root = pq.poll();
@@ -53,30 +64,30 @@ public class HuffmanTree {
         getHuffmanCodes(root, huffCodes, new ArrayList<>());
         for (Integer c : characters)
             huffCodes.get(c).forEach(stream::writeBit);
+        stream.close();
     }
 
     public List<Integer> decode(BitInputStream stream) {
         ArrayList<Integer> list = new ArrayList<>();
-        Integer c = -1;
-        while (c > 0) {
+        Integer nextBit = -1;
+        do {
             Node cur = root;
             while (cur.c == null) {
-                int nextBit = stream.readBit();
+                nextBit = stream.readBit();
                 if (nextBit == 0)
                     cur = cur.left;
                 else if (nextBit == 1)
                     cur = cur.right;
-                else
-                    throw new IllegalArgumentException("BitInputStream returned value that is not 1 or 0.");
+                else break;
             }
-            c = cur.c;
-            if (c > 0)
-                list.add(c);
-        }
+            if (nextBit >= 0 && cur.c != 256) { // not eof character
+                list.add(cur.c);
+            }
+        } while (nextBit >= 0);
         return list;
     }
 
-    void getHuffmanCodes(Node cur, Map<Integer, List<Integer>> huffCodes, ArrayList<Integer> bits) {
+    private void getHuffmanCodes(Node cur, Map<Integer, List<Integer>> huffCodes, ArrayList<Integer> bits) {
         if (cur.c != null)
             huffCodes.put(cur.c, bits);
         else {
@@ -89,4 +100,9 @@ public class HuffmanTree {
             }
         }
     }
+
+    void print () {
+        root.print();
+    }
+
 }

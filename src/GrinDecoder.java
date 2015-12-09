@@ -20,6 +20,7 @@ public class GrinDecoder {
             frequencyMap.put(input.readBits(32), input.readBits(32));
 
         HuffmanTree huffmanTree = new HuffmanTree(frequencyMap);
+        //huffmanTree.print();
         List<Integer> characters = huffmanTree.decode(input);
         input.close();
 

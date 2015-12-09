@@ -25,6 +25,7 @@ public class GrinEncoder {
         }
 
         HuffmanTree huffmanTree = new HuffmanTree(freq);
+        huffmanTree.print();
         huffmanTree.encode(characters, output);
 
         output.close();
