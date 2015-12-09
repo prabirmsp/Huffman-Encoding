@@ -9,7 +9,7 @@ public class GrinDecoderTest {
     public void testDecode() throws Exception {
         //GrinEncoder.encode("huffman-example.txt", "huffman-example.grin");
         //GrinDecoder.decode("huffman-example.grin", "test1.txt");
-        GrinEncoder.encode("wikipedia-huffman-coding.txt", "wiki-example.grin");
-        GrinDecoder.decode("wiki-example.grin", "test2.txt");
+        GrinEncoder.encode("wikipedia-huffman-coding.txt", "wiki-example1.grin");
+        GrinDecoder.decode("wiki-example1.grin", "test3.txt");
     }
 }

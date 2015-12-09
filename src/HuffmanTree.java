@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.PriorityQueue;
 
 public class HuffmanTree {
 
@@ -50,7 +51,7 @@ public class HuffmanTree {
             pq.add(new Node(e.getKey(), e.getValue()));
         pq.add(new Node(256, 1)); // add EOF character
 
-        while (pq.size > 1) {
+        while (pq.size() > 1) {
             Node n1 = pq.poll();
             Node n2 = pq.poll();
             pq.add(new Node(n1.freq + n2.freq, n1, n2));
@@ -80,13 +81,19 @@ public class HuffmanTree {
                     cur = cur.right;
                 else break;
             }
-            if (nextBit >= 0 && cur.c != 256) { // not eof character
+            if (nextBit >= 0 && cur.c != 256) { // not EOF character
                 list.add(cur.c);
             }
         } while (nextBit >= 0);
         return list;
     }
 
+    /**
+     * Get the Huffman Codes for the characters from this huffman tree
+     * @param cur the root node
+     * @param huffCodes an empty map to store the bits
+     * @param bits the bits
+     */
     private void getHuffmanCodes(Node cur, Map<Integer, List<Integer>> huffCodes, ArrayList<Integer> bits) {
         if (cur.c != null)
             huffCodes.put(cur.c, bits);
@@ -101,6 +108,9 @@ public class HuffmanTree {
         }
     }
 
+    /**
+     * Prints the huffman tree to System.out
+     */
     void print () {
         root.print();
     }
