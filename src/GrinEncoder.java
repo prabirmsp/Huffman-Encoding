@@ -31,7 +31,15 @@ public class GrinEncoder {
         output.close();
     }
 
-    private static Map<Integer, Integer> createFrequencyMap(String file, List<Integer> characters) throws IOException {
+    /**
+     * Create a frequency map of all the characters, and record the characters in a list
+     * @param file the name/path of the file
+     * @param characters an empty array to record characters in
+     * @return frequency map
+     * @throws IOException
+     */
+    private static Map<Integer, Integer> createFrequencyMap(String file, List<Integer> characters)
+            throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         Map<Integer, Integer> frequencyMap = new HashMap<>();
         int c;

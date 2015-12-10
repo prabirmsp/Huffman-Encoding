@@ -1,5 +1,9 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class HuffmanTree {
 
@@ -31,7 +35,7 @@ public class HuffmanTree {
         }
 
         private void print(String prefix, boolean isTail) {
-            System.out.println(prefix + (isTail ? "└── " : "├── ") + (c == null ? freq : "'" + (char) c.intValue() +  "' / " + freq));
+            System.out.println(prefix + (isTail ? "└── " : "├── ") + (c == null ? freq : "'" + (char) c.intValue() + "' / " + freq));
             if (left != null)
                 left.print(prefix + (isTail ? "    " : "│   "), right == null);
             if (right != null)
@@ -70,21 +74,28 @@ public class HuffmanTree {
 
     public List<Integer> decode(BitInputStream stream) {
         ArrayList<Integer> list = new ArrayList<>();
-        Integer nextBit = -1;
-        do {
+        int nextChar = -1;
+        // until you reach the eof character
+        while (nextChar != 256) {
+
+            // read the bits and follow the tree
             Node cur = root;
-            while (cur.c == null) {
-                nextBit = stream.readBit();
+            do {
+                int nextBit = stream.readBit();
                 if (nextBit == 0)
                     cur = cur.left;
                 else if (nextBit == 1)
                     cur = cur.right;
-                else break;
-            }
-            if (nextBit >= 0 && cur.c != 256) { // not eof character
-                list.add(cur.c);
-            }
-        } while (nextBit >= 0);
+                else
+                    throw new IllegalArgumentException("File stream ended before EOF character reached.");
+            } while (cur.c == null); // until we get to a leaf node
+
+            nextChar = cur.c;
+
+            if (nextChar != 256)
+                list.add(nextChar);
+
+        }
         return list;
     }
 
@@ -105,7 +116,7 @@ public class HuffmanTree {
     /**
      * prints the huffman tree
      */
-    void print () {
+    void print() {
         root.print();
     }
 
