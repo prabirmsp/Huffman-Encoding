@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.PriorityQueue;
 
 public class HuffmanTree {
 
@@ -50,7 +51,7 @@ public class HuffmanTree {
             pq.add(new Node(e.getKey(), e.getValue()));
         pq.add(new Node(256, 1)); // add EOF character
 
-        while (pq.size > 1) {
+        while (pq.size() > 1) {
             Node n1 = pq.poll();
             Node n2 = pq.poll();
             pq.add(new Node(n1.freq + n2.freq, n1, n2));

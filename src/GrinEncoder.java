@@ -36,12 +36,13 @@ public class GrinEncoder {
         Map<Integer, Integer> frequencyMap = new HashMap<>();
         int c;
         while ((c = reader.read()) > 0) {
-            characters.add(c);
+            characters.add(c); // add character to the list of characters
             if (frequencyMap.containsKey(c))
                 frequencyMap.put(c, frequencyMap.get(c) + 1);
             else
                 frequencyMap.put(c, 1);
         }
+        characters.add(256); // add eof character
         reader.close();
         return frequencyMap;
     }

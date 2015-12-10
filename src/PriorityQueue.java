@@ -1,10 +1,16 @@
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
+
+/**
+ * A heap-based min priority queue backed by an array.
+ * Authors: Bazil and Prabir
+ * @param <T>
+ */
 public class PriorityQueue<T extends Comparable<? super T>> {
 
     private T[] arr;
-    int size;
+    private int size;
 
     public PriorityQueue(int size) {
         arr = (T[]) new Comparable[size];
@@ -34,7 +40,7 @@ public class PriorityQueue<T extends Comparable<? super T>> {
     private void siftUp(int index) {
         int indexOfParent = parentOf(index);
 
-        if (index != 0 && arr[index].compareTo(arr[indexOfParent]) <= 0) {
+        if (index != 0 && arr[index].compareTo(arr[indexOfParent]) < 0) {
             T temp = arr[index];
             arr[index] = arr[indexOfParent];
             arr[indexOfParent] = temp;
@@ -57,7 +63,7 @@ public class PriorityQueue<T extends Comparable<? super T>> {
         int rightChild = rightChildOf(index), leftChild = leftChildOf(index);
         if (leftChild < size) {
             int child = -1;
-            if (arr[leftChild].compareTo(arr[index]) <= 0) {
+            if (arr[leftChild].compareTo(arr[index]) < 0) {
                 child = leftChild;
             }
             if (rightChild < size && arr[rightChild].compareTo(arr[leftChild]) < 0) {
@@ -76,6 +82,10 @@ public class PriorityQueue<T extends Comparable<? super T>> {
         if (size > 0)
             return arr[0];
         throw new IllegalStateException("PriorityQueue is empty.");
+    }
+
+    public int size() {
+        return size;
     }
 
     public void printTree() {
